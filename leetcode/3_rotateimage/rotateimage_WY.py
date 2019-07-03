@@ -6,7 +6,7 @@ class Solution(object):
         """
         matrix[::] = map(list,zip(*matrix[::-1]))
 
-        # *matrix : unpack and put together i'th elements of lists in matrix
+        # zip(*matrix) : unpack and put together i'th elements of lists in matrix
         # [::-1] : extract lists in matrix in reverse order
         # map(list,~) : convert tuples to list
 
