@@ -1,0 +1,23 @@
+class Solution(object):
+    def maxSlidingWindow(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        
+        max_list = list()
+        if nums == list():
+            return max_list
+        else:
+            window = nums[:k]
+            first_max = max(window)
+            max_list.append(first_max)
+            
+            for i in range(len(nums)-k):
+                if max_list[i] <= nums[k+i]:
+                    max_list.append(nums[k+i])
+                else:
+                    max_list.append(max(nums[i+1:k+i+1]))
+                        
+            return max_list
