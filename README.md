@@ -8,10 +8,14 @@
 2. Test case에 대한 **time/memory complexity를 잘 극복하여 높은 백분위를 얻는 알고리즘을 구현**하는 것이 핵심이 되겠습니다.
 3. 2에 따라, 두 complexity의 백분위 합이 가장 낮은 1명은 `winner`로 지정하여 각 문제 list에 명예의 전당으로 기록해 드립니다.
 	- 단, 제출 due 이전에 commit/push한 코드에 대해서만 가능
+	- 제출된 코드를 leetcode 상에서 3번 실행하고, 산출된 time/memory 백분율의 평균 합이 높은 순위. 기록은 3번의
+	 평균값.
 4. **자신의 코드 작성만이 duty가 아닙니다.** 업로드한 다른 구성원의 코드를 참조하거나, 더 나은 구현 방법 혹은 표준 구현법 (Python의 경우 PEP8 등)에 맞지 않는 구현을 지적하고 개선해주는 것 또한 의무사항입니다.
 
 ## 문제 list
-- [190628] [leetcode/twosum](https://leetcode.com/problems/two-sum/) winner: `someone` @time:~% @memory:~%
+- [190628] [leetcode/twosum](https://leetcode.com/problems/two-sum/) winner: 
+`junkeon @time: top 93.03%, @memory: top 43.29%`
+
 
 ## 참고 페이지 
 #### 문제 은행
