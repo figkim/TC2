@@ -10,7 +10,7 @@ class Solution:
         max_list = [max_num]
 
         for i in range(k, N):
-            if max_num <= nums[i]:
+            if max_num < nums[i]:
                 max_num = nums[i]
 
             elif max_num == nums[i-k]:
