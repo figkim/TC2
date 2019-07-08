@@ -7,7 +7,7 @@ class Solution:
         while len(stack) > 0:
             token, left, right = stack.pop()
 
-            if len(token) == 2 * n:
+            if left + right == 2 * n:
                 ans.append(token)
                 continue
 
