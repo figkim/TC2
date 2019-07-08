@@ -1,21 +1,20 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        stack = [('(', 1)]
+        stack = [('(', 1, 0)]
 
         ans = []
 
         while len(stack) > 0:
-            token, score = stack.pop()
-
-            if score < 0:
-                continue
+            token, left, right = stack.pop()
 
             if len(token) == 2 * n:
-                if score == 0:
-                    ans.append(token)
+                ans.append(token)
                 continue
 
-            stack.append((token + '(', score + 1))
-            stack.append((token + ')', score - 1))      
+            if left < n:
+                stack.append((token + '(', left + 1, right))
+
+            if left > right:
+                stack.append((token + ')', left, right + 1))     
                 
         return ans
