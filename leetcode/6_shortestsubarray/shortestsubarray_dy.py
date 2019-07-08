@@ -8,13 +8,15 @@ class Solution:
         ans = len(A) + 1
         
         # let B(x) as sum from zero to x, then B(x2) - B(x1) is sum from x1 to x2 (if x2 > x1)
-        # My deque has candidates for x1 (x1_candidates)
+        # My deque will collect possible candidates for x1 (x1_candidates)
         # Iterate for x to check 1) whether it is better x1, and 2) whether it can be x2 for existing x1_candidates 
-        # 1) How? we can think some strict constraint for x1 & x2
+        # 1) Whether it is better x1? 
+        # we can think strict constraint for x1. 
         # if x1_candidate1 < x1_candidate2 & B(x1_candidate1) > B(x1_candidate2), 
         # then x1_candidate2 is always better solution than x1_candidate1.
         # "rule for deque : if x1 < x2, then deq[x1] < deq[x2]" is come from this constraint
-        # 2) How? check x2_candidate (check B(x2_candidate) - deq[0] >= K)
+        # 2) Whether it can be x2 for existing x1_candidates? 
+        # check x2_candidate (check B(x2_candidate) - deq[0] >= K)
         for i, num in enumerate(A): 
             sum_from_zero += num
             while deq and deq[-1][1] >= sum_from_zero:
