@@ -28,15 +28,42 @@ class Solution(object):
         
         """
         # use recurrence relation
+        # choose the first "(" and the k-th ")" 
+        # then, in the middle of the two "(" and ")", there are exactly (k-1) well-performed parentheses
+        # for the rest (n-k) well-performed parentheses, the lie on the right side of the k-th ")"
         
         if n == 0:
             return [""]
         elif n == 1:
             return ["()"]
         else:
-            parenthsis_list = list()
+            parenthses_list = list()
             for i in range(n):
                 for str1 in self.generateParenthesis(i):
                     for str2 in self.generateParenthesis(n-1-i):
-                        parenthsis_list.append("("+str1+")"+str2)
-            return parenthsis_list
+                        parenthses_list.append("("+str1+")"+str2)
+            return parenthses_list
+
+        """
+        # JK's solution
+
+        def generateParenthesis(self, n: int) -> List[str]:
+            stack = [('(', 1, 0)]
+
+            ans = []
+
+            while len(stack) > 0: # cumulatively add possible puzzles #keyworkds: stack, DFS
+                token, left, right = stack.pop()
+
+                if left + right == 2 * n:
+                    ans.append(token)
+                    continue
+
+                if left < n:
+                    stack.append((token + '(', left + 1, right))
+
+                if left > right:
+                    stack.append((token + ')', left, right + 1))     
+                    
+            return ans
+        """
