@@ -3,21 +3,19 @@ class Solution:
         n = len(A)
         
         num = 0
-        p = [num]
-        queue = collections.deque([num])
+        queue = collections.deque([(0, num)])
 
         min_len = n + 1
 
         for i, ele in enumerate(A, 1):
             num += ele
-            p.append(num)
             
-            while queue and num <= p[queue[-1]]:
+            while queue and num <= queue[-1][-1]:
                 queue.pop()
 
-            while queue and num - p[queue[0]] >= K:
-                min_len = min(min_len, i - queue.popleft())
+            while queue and num - queue[0][-1] >= K:
+                min_len = min(min_len, i - queue.popleft()[0])
 
-            queue.append(i)            
+            queue.append((i, num))
 
         return min_len if min_len < n + 1 else -1
