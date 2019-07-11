@@ -1,3 +1,5 @@
+https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/description/
+
 ## 862. Shortest Subarray with Sum at Least K
 
 - Return the length of the shortest, non-empty, contiguous subarray of `A` with sum at least `K`.
