@@ -1,4 +1,4 @@
-https://leetcode.com/problems/subarrays-with-k-different-integers/
+https://leetcode.com/problems/subarrays-with-k-different-integers/description/
 
 ## 992. Subarrays with K Different Integers
 
