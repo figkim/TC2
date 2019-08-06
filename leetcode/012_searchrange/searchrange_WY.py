@@ -79,3 +79,33 @@ class Solution(object):
                 return [-1, -1]
             else:
                 return [left, right]
+        '''   
+        if (len(nums) == 0) or (nums[0] > target) or (nums[-1] < target):
+            return [-1, -1]
+        
+        else:
+            exp = 1
+            
+            while len(nums)/(2**(exp)) > 0:
+                exp += 1
+            
+            left, right = 0, len(nums)-1
+            while (nums[left] <= target <= nums[right]) and (left <= right):
+                center = (left+right)/2
+                if nums[center] < target:
+                    left = center+1
+                elif nums[center] > target:
+                    right = center-1
+                else:
+                    break
+            
+            while nums[left] < target:
+                left += 1
+            while nums[right] > target:
+                right -= 1
+            
+            if (nums[left] != target) or (nums[right] != target) or (left > right):
+                return [-1, -1]
+            else:
+                return [left, right]
+        '''
