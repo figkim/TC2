@@ -5,6 +5,8 @@ class Solution(object):
         :rtype: int
         """
         
+        """
+        # sol1
         nums.sort()
         count = 0
         
@@ -14,4 +16,8 @@ class Solution(object):
                 count += 2
             else:
                 return nums[count]
-            
+        """
+
+
+        # sol 2
+        return sum(set(nums))*2 - sum(nums)
