@@ -24,11 +24,6 @@ class Summary(Resource):
     def post(self):
         counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
 
-        CACHE_PATH = '/home/maybedy/_tc2cache/TC2'
-        PROB_PATH = os.path.join(CACHE_PATH, 'leetcode')
-        GIT_URL = 'https://github.com/figkim/TC2.git'
-        SLACK_INCOMING_HOOK = 'https://hooks.slack.com/services/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'
-
         if not os.path.exists(CACHE_PATH):
             print("clone TC2")
             os.system('git clone {} {}'.format(GIT_URL, CACHE_PATH)) # TODO add check stdout of this call
@@ -54,7 +49,7 @@ class Summary(Resource):
 
         counts['total'] = total_count
         response = app.response_class(
-            response=json.dumps(message),
+            response=json.dumps("Success"),
             status=200,
             mimetype='application/json'
         )
