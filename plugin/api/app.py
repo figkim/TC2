@@ -2,7 +2,7 @@ import itertools
 import os
 import requests
 
-from flask import Flask
+from flask import Flask, json
 from flask_restplus import Api, Resource
 
 app = Flask(__name__)
@@ -21,7 +21,7 @@ class ActivateSummary(Resource):
 
 @api.route('/v1/summary')
 class Summary(Resource):
-    def get(self):
+    def post(self):
         counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
 
         CACHE_PATH = '/home/maybedy/_tc2cache/TC2'
@@ -53,8 +53,12 @@ class Summary(Resource):
         print(results)
 
         counts['total'] = total_count
-
-        return counts
+        response = app.response_class(
+            response=json.dumps(message),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
 if __name__ == '__main__':
     # app.run(debug=True)
