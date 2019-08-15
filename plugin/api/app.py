@@ -1,5 +1,6 @@
 import itertools
 import os
+import requests
 
 from flask import Flask
 from flask_restplus import Api, Resource
@@ -23,7 +24,7 @@ class Summary(Resource):
     def get(self):
         counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
 
-        CACHE_PATH = '~/_tc2cache/TC2'
+        CACHE_PATH = '/home/maybedy/_tc2cache/TC2'
         PROB_PATH = os.path.join(CACHE_PATH, 'leetcode')
         GIT_URL = 'https://github.com/figkim/TC2.git'
         SLACK_INCOMING_HOOK = 'https://hooks.slack.com/services/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'
@@ -43,14 +44,18 @@ class Summary(Resource):
                         if commiter in counts:
                             counts[commiter] += 1
         
-        message = "Total {} problems".format(total_count)
+        message = "Total {} problems\n".format(total_count)
         message += "\n".join(["{}: {}({}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
-        os.system("url -X POST -H 'Content-type: application/json' --data '{'text':'{}'}' {}".format(
-            message,
-            SLACK_INCOMING_HOOK
-        ))
+
+        results = requests.post(SLACK_INCOMING_HOOK,
+            json={'text':message},
+            headers={'Content-Type': 'application/json'})
+        print(results)
+
         counts['total'] = total_count
+
         return counts
 
 if __name__ == '__main__':
+    # app.run(debug=True)
     app.run(host='0.0.0.0')
