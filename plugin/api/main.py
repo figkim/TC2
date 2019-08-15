@@ -12,6 +12,12 @@ class HelloWorld(Resource):
     def get(self):
         return {'hello':'world'}
 
+@api.route('/activate_summary')
+class ActivateSummary(Resource):
+    def get(self):
+
+        return 'activated'
+
 @api.route('/summary')
 class Summary(Resource):
     def get(self):
@@ -20,6 +26,7 @@ class Summary(Resource):
         CACHE_PATH = '~/_tc2cache/TC2'
         PROB_PATH = os.path.join(CACHE_PATH, 'leetcode')
         GIT_URL = 'https://github.com/figkim/TC2.git'
+        SLACK_INCOMING_HOOK = 'https://hooks.slack.com/services/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'
 
         if not os.path.exists(CACHE_PATH):
             print("clone TC2")
@@ -36,6 +43,12 @@ class Summary(Resource):
                         if commiter in counts:
                             counts[commiter] += 1
         
+        message = "Total {} problems".format(total_count)
+        message += "\n".join(["{}: {}({}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
+        os.system("url -X POST -H 'Content-type: application/json' --data '{'text':'{}'}' {}".format(
+            message,
+            SLACK_INCOMING_HOOK
+        ))
         counts['total'] = total_count
         return counts
 
