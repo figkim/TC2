@@ -8,18 +8,18 @@ from flask_restplus import Api, Resource
 app = Flask(__name__)
 api = Api(app)
 
-@api.route('/hello')
+@api.route('/v1/hello')
 class HelloWorld(Resource):
     def get(self):
         return {'hello':'world'}
 
-@api.route('/activate_summary')
+@api.route('/v1/activate_summary')
 class ActivateSummary(Resource):
     def get(self):
 
         return 'activated'
 
-@api.route('/summary')
+@api.route('/v1/summary')
 class Summary(Resource):
     def get(self):
         counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
