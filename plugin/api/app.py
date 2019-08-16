@@ -6,6 +6,13 @@ import random
 from flask import Flask, json
 from flask_restplus import Api, Resource
 
+from config import Config
+
+CACHE_PATH = Config.CACHE_PATH
+PROB_PATH = Config.PROB_PATH
+GIT_URL = Config.GIT_URL
+SLACK_INCOMING_HOOK = Config.SLACK_INCOMING_HOOK
+
 app = Flask(__name__)
 api = Api(app)
 
