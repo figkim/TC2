@@ -1,6 +1,7 @@
 import itertools
 import os
 import requests
+import random
 
 from flask import Flask, json
 from flask_restplus import Api, Resource
@@ -40,7 +41,7 @@ class Summary(Resource):
                             counts[commiter] += 1
         
         message = "Total {} problems\n".format(total_count)
-        message += "\n".join(["{}: {}({}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
+        message += "\n".join(["{}: {%4d} ({%5.2f}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
 
         results = requests.post(SLACK_INCOMING_HOOK,
             json={'text':message},
@@ -54,6 +55,23 @@ class Summary(Resource):
             mimetype='application/json'
         )
         return response
+
+@api.route('/v1/yaong')
+class Yaong(Resource):
+    def post(self):
+        message = random.choice(['야옹?', '냐', '냐아아아아!', '꿍', '꾸우우우웅?', '냥!'])
+        requests.post(SLACK_INCOMING_HOOK,
+            json={'text':message},
+            headers={'Content-Type': 'application/json'}
+        )
+        
+        response = app.response_class(
+            response=json.dumps('Yaong?'),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
 
 if __name__ == '__main__':
     # app.run(debug=True)
