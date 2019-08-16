@@ -1,33 +1,36 @@
 import itertools
 import os
 import requests
+import random
 
-from flask import Flask
+from flask import Flask, json
 from flask_restplus import Api, Resource
+
+from config import Config
+
+CACHE_PATH = Config.CACHE_PATH
+PROB_PATH = Config.PROB_PATH
+GIT_URL = Config.GIT_URL
+SLACK_INCOMING_HOOK = Config.SLACK_INCOMING_HOOK
 
 app = Flask(__name__)
 api = Api(app)
 
-@api.route('/hello')
+@api.route('/v1/hello')
 class HelloWorld(Resource):
     def get(self):
         return {'hello':'world'}
 
-@api.route('/activate_summary')
+@api.route('/v1/activate_summary')
 class ActivateSummary(Resource):
     def get(self):
 
         return 'activated'
 
-@api.route('/summary')
+@api.route('/v1/summary')
 class Summary(Resource):
-    def get(self):
+    def post(self):
         counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
-
-        CACHE_PATH = '/home/maybedy/_tc2cache/TC2'
-        PROB_PATH = os.path.join(CACHE_PATH, 'leetcode')
-        GIT_URL = 'https://github.com/figkim/TC2.git'
-        SLACK_INCOMING_HOOK = 'https://hooks.slack.com/services/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'
 
         if not os.path.exists(CACHE_PATH):
             print("clone TC2")
@@ -45,7 +48,7 @@ class Summary(Resource):
                             counts[commiter] += 1
         
         message = "Total {} problems\n".format(total_count)
-        message += "\n".join(["{}: {}({}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
+        message += "\n".join(["{}: {%4d} ({%5.2f}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
 
         results = requests.post(SLACK_INCOMING_HOOK,
             json={'text':message},
@@ -53,8 +56,29 @@ class Summary(Resource):
         print(results)
 
         counts['total'] = total_count
+        response = app.response_class(
+            response=json.dumps("Success"),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
 
-        return counts
+@api.route('/v1/yaong')
+class Yaong(Resource):
+    def post(self):
+        message = random.choice(['야옹?', '냐', '냐아아아아!', '꿍', '꾸우우우웅?', '냥!'])
+        requests.post(SLACK_INCOMING_HOOK,
+            json={'text':message},
+            headers={'Content-Type': 'application/json'}
+        )
+        
+        response = app.response_class(
+            response=json.dumps('Yaong?'),
+            status=200,
+            mimetype='application/json'
+        )
+        return response
+
 
 if __name__ == '__main__':
     # app.run(debug=True)
