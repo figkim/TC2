@@ -49,7 +49,7 @@ class Summary(Resource):
                                 counts[commiter] += 1
             
             message = "Total {} problems\n".format(total_count)
-            message += "\n".join(["{}: {%4d} ({%5.2f}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
+            message += "\n".join(["%3s: %4d (%5.2f%%)" % (key.upper(), counts[key], counts[key]/total_count*100) for key in counts])
         else:
             message = "Only for tc2-get-notified channel. Come to tc2-get-notified and catch your dream!"
         response = app.response_class(
