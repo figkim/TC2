@@ -11,7 +11,7 @@ from config import Config
 CACHE_PATH = Config.CACHE_PATH
 PROB_PATH = Config.PROB_PATH
 GIT_URL = Config.GIT_URL
-SLACK_INCOMING_HOOK = Config.SLACK_INCOMING_HOOK
+SLACK_INCOMING_HOOKS = Config.SLACK_INCOMING_HOOKS
 
 app = Flask(__name__)
 api = Api(app)
@@ -29,8 +29,9 @@ class ActivateSummary(Resource):
 @api.route('/v1/summary')
 class Summary(Resource):
     def post(self):
-        payload = request.get_json()
-        if data['channel_name'] == 'tc2-get-notified':
+        channel_name = request.form.get('channel_name', None)
+
+        if channel_name and channel_name == 'tc2-get-notified':
             counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
 
             if not os.path.exists(CACHE_PATH):
@@ -66,15 +67,30 @@ class Summary(Resource):
 class Yaong(Resource):
     def post(self):
         message = random.choice(['야옹?', '냐', '냐아아아아!', '꿍', '꾸우우우웅?', '냥!'])
-        response = app.response_class(
-            response=json.dumps({
-                'response_type': 'in_channel',
-                'text': message
-            }),
-            status=200,
-            mimetype='application/json'
-        )
-        return response
+        print("hiru")
+        try:
+            channel_name = request.form.get('channel_name', None)
+        except:
+            print("bad")
+        if channel_name and channel_name in SLACK_INCOMING_HOOKS:
+            requests.post(SLACK_INCOMING_HOOKS[channel_name],
+                json={'text':message},
+                headers={'Content-Type': 'application/json'})
+            response = app.response_class(
+                    response=None,
+                    status=200,
+                    mimetype='application/json')
+            return response
+        else:
+            response = app.response_class(
+                response=json.dumps({
+                    'response_type': 'in_channel',
+                    'text': message
+                }),
+                status=200,
+                mimetype='application/json'
+            )
+            return response
 
 
 if __name__ == '__main__':
