@@ -66,11 +66,6 @@ class Summary(Resource):
 class Yaong(Resource):
     def post(self):
         message = random.choice(['야옹?', '냐', '냐아아아아!', '꿍', '꾸우우우웅?', '냥!'])
-        requests.post(SLACK_INCOMING_HOOK,
-            json={'text':message},
-            headers={'Content-Type': 'application/json'}
-        )
-        
         response = app.response_class(
             response=json.dumps({
                 'response_type': 'in_channel',
