@@ -3,7 +3,7 @@ import os
 import requests
 import random
 
-from flask import Flask, json
+from flask import Flask, json, request
 from flask_restplus import Api, Resource
 
 from config import Config
@@ -24,40 +24,39 @@ class HelloWorld(Resource):
 @api.route('/v1/activate_summary')
 class ActivateSummary(Resource):
     def get(self):
-
         return 'activated'
 
 @api.route('/v1/summary')
 class Summary(Resource):
     def post(self):
-        counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
+        payload = request.get_json()
+        if data['channel_name'] == 'tc2-get-notified':
+            counts = {'wy':0, 'dh':0, 'dy':0, 'jk':0, 'kw':0}
 
-        if not os.path.exists(CACHE_PATH):
-            print("clone TC2")
-            os.system('git clone {} {}'.format(GIT_URL, CACHE_PATH)) # TODO add check stdout of this call
-        os.system('cd {} && git pull'.format(CACHE_PATH)) # TODO add check stdout of this call
+            if not os.path.exists(CACHE_PATH):
+                print("clone TC2")
+                os.system('git clone {} {}'.format(GIT_URL, CACHE_PATH)) # TODO add check stdout of this call
+            os.system('cd {} && git pull'.format(CACHE_PATH)) # TODO add check stdout of this call
 
-        total_count = 0
-        for folder in os.listdir(PROB_PATH):
-            if os.path.isdir(os.path.join(PROB_PATH, folder)):
-                total_count += 1
-                for filename in os.listdir(os.path.join(PROB_PATH, folder)):
-                    if filename.endswith('.py'):
-                        commiter = filename.split('.')[-2][-2:].lower()
-                        if commiter in counts:
-                            counts[commiter] += 1
-        
-        message = "Total {} problems\n".format(total_count)
-        message += "\n".join(["{}: {%4d} ({%5.2f}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
-
-        results = requests.post(SLACK_INCOMING_HOOK,
-            json={'text':message},
-            headers={'Content-Type': 'application/json'})
-        print(results)
-
-        counts['total'] = total_count
+            total_count = 0
+            for folder in os.listdir(PROB_PATH):
+                if os.path.isdir(os.path.join(PROB_PATH, folder)):
+                    total_count += 1
+                    for filename in os.listdir(os.path.join(PROB_PATH, folder)):
+                        if filename.endswith('.py'):
+                            commiter = filename.split('.')[-2][-2:].lower()
+                            if commiter in counts:
+                                counts[commiter] += 1
+            
+            message = "Total {} problems\n".format(total_count)
+            message += "\n".join(["{}: {%4d} ({%5.2f}%)".format(key, counts[key], counts[key]/total_count*100) for key in counts])
+        else:
+            message = "Only for tc2-get-notified channel. Come to tc2-get-notified and catch your dream!"
         response = app.response_class(
-            response=json.dumps("Success"),
+            response=json.dumps({
+                'response_type': 'in_channel',
+                'text': message
+            }),
             status=200,
             mimetype='application/json'
         )
@@ -73,7 +72,10 @@ class Yaong(Resource):
         )
         
         response = app.response_class(
-            response=json.dumps('Yaong?'),
+            response=json.dumps({
+                'response_type': 'in_channel',
+                'text': message
+            }),
             status=200,
             mimetype='application/json'
         )
