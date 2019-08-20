@@ -23,6 +23,8 @@
 ## 참고 페이지 
 #### 문제 은행
 - [`leetcode`](https://leetcode.com/problemset/all/): 아주 유명함. 이직 했다는 사람들 말을 들으면 한 번 씩은 거쳐간, 노량진 일타 감성
+- [`HackerRank`](https://www.hackerrank.com/): Competitive coding website 중 
+가입자 수 1위 (166.0k) 에 달하는 사이트. 다양한 분야에 대해 step-by-step으로 배울 수 있는게 장점인 듯.
 
 #### Package 
 - [`CuPy`](https://cupy.chainer.org/)
