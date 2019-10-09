@@ -10,6 +10,7 @@ Assume a BST is defined as follows:
 * Both the left and right subtrees must also be binary search trees.
 
 Example 1:
+
 '''
     2
    / \
@@ -19,6 +20,7 @@ Example 1:
 '''
 
 Example 2:
+
 '''
     5
    / \
