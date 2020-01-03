@@ -1,6 +1,2 @@
-__pycache__/
-env/
-
-*.sock
-*.bak
-*.swp
+**/.DS_Store
+**/.gitignore
