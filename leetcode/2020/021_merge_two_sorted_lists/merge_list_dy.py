@@ -32,3 +32,4 @@ class Solution:
                 break
             rank[0] = rank[0].next
 
+        return startNode
