@@ -12,26 +12,22 @@ class Solution:
             return []
         
         result = []
-        queue = [(root, 1)]
-        
-        tmp = []
-        c_lvl = 1
+        queue = [root]
         
         while queue:
-            node, lvl = queue.pop(0)
-            if lvl == c_lvl:
+            tmp = []
+            t_queue = queue[:]
+            queue = []
+            
+            for node in t_queue:
                 tmp.append(node.val)
-            else:
-                result.append(tmp)
-                tmp = [node.val]
-                c_lvl = lvl
                 
-            if node.left:
-                queue.append((node.left, lvl+1))
+                if node.left:
+                    queue.append(node.left)
+
+                if node.right:
+                    queue.append(node.right)
                 
-            if node.right:
-                queue.append((node.right, lvl+1))
-                
-        result.append(tmp)
+            result.append(tmp)
                 
         return reversed(result)
