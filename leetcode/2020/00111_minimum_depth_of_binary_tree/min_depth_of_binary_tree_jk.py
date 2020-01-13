@@ -10,18 +10,13 @@ class Solution:
         if not root:
             return 0
         
-        queue = [(root, 1)]
+        if not (root.left or root.right):
+            return 1
         
-        while queue:
-            node, lvl = queue.pop(0)
-            
-            if not (node.left or node.right):
-                return lvl
-            
-            if node.left:
-                queue.append((node.left, lvl+1))
-                
-            if node.right:
-                queue.append((node.right, lvl+1))
-                
-        return -1
+        if not root.left:
+            return self.minDepth(root.right) + 1
+        
+        if not root.right:
+            return self.minDepth(root.left) + 1
+        
+        return min(self.minDepth(root.left), self.minDepth(root.right)) + 1
