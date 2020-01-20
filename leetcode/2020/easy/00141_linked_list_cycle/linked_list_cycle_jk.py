@@ -5,14 +5,19 @@
 #         self.next = None
 
 class Solution:
-    hash = set()
     def hasCycle(self, head: ListNode) -> bool:
         if not head:
             return False
         
-        if head in self.hash:
-            return True
+        slow = head
+        fast = head
         
-        self.hash.add(head)
-        
-        return self.hasCycle(head.next)
+        while True:
+            if not (slow and slow.next and fast.next and fast.next.next):
+                return False
+            
+            slow = slow.next
+            fast = fast.next.next
+            
+            if slow is fast:
+                return True  
