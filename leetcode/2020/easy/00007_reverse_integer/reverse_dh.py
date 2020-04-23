@@ -21,4 +21,4 @@ class Solution(object):
         if x == 0 or int(temp) < -2**31 or int(temp) > 2**31 - 1:
             return 0
             
-        return temp
+        return int(temp)
