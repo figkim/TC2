@@ -8,40 +8,23 @@ class Solution(object):
         nums.sort()
         if length % 2 == 0 and nums[length//2 - 1] != nums[length//2]:
             a, b = nums[:length//2], nums[length//2:]
-            c = list()
             for i in range(len(a)):
-                c.append(a[i])
-                c.append(b[i])
-            for i,cc in enumerate(c):
-                nums[i] = cc
+                nums[2*i] = a[i]
+                nums[2*i+1] = b[i]
         elif length % 2 == 0 and nums[length//2 - 1] == nums[length//2]:
             a, b = nums[:length//2], nums[length//2:]
-            c = list()
             for i in range(len(a)):
-                c.append(b[i])
-                c.append(a[i])
-            for i,cc in enumerate(c):
-                nums[i] = cc
+                nums[2*i] = b[i]
+                nums[2*i+1] = a[i]
             nums.reverse()
-        elif length % 2 != 0 and nums[length//2 - 1] != nums[length//2]:
-            a, b = nums[:length//2 + 1], nums[length//2 + 1:]
-            c = list()
-            for i in range(len(a)-1):
-                c.append(a[i])
-                c.append(b[i])
-            c.append(a[-1])
-            for i,cc in enumerate(c):
-                nums[i] = cc
         else:
             a, b = nums[:length//2 + 1], nums[length//2 + 1:]
-            c = list()
             for i in range(len(a)-1):
-                c.append(a[i])
-                c.append(b[i])
-            c.append(a[-1])
-            for i,cc in enumerate(c):
-                nums[i] = cc
+                nums[2*i] = a[i]
+                nums[2*i+1] = b[i]
+            nums[-1] = a[-1]
 
 # TO DO:
-# build in-place code
+# build in-place code w/ constant extra space -> do not use variable a, b
+# build linear time code -> sort() used in the current code
 # code cleansing
