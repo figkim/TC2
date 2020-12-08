@@ -14,5 +14,9 @@ class Solution:
         if N%2:
             nums[-1] = new_nums[-1]
             
-                
+        # the better code from other code
+        #
+        # N = len(nums)
+        # nums.sort()
+        # nums[::2], nums[1::2] = nums[N//2:], nums[:N//2]
         
