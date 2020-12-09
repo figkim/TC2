@@ -2,13 +2,8 @@ class Solution:
     def evalRPN(self, tokens):
         operators = ['+', '-', '*', '/']
         operand_stack = []
-        operand_stack.append(tokens[0])
-        #         print(tokens[0])
-        idx = 1
-        while True:
-            if idx == len(tokens):
-                break
-            token = tokens[idx]
+        for i in range(len(tokens)):
+            token = tokens[i]
             if token in operators:
                 # operator
                 result = self.compute(operand_stack, token)
@@ -17,14 +12,15 @@ class Solution:
                 # operand
                 operand_stack.append(token)
 
-            idx += 1
-        #             print(token, operand_stack)
+            # print(token, operand_stack)
 
-        return operand_stack[0]
+        return int(operand_stack[-1])
 
     def compute(self, operand_stack, operator):
         second_operand = int(operand_stack.pop())
         first_operand = int(operand_stack.pop())
+
+        #         result = int(eval(first_operand + operator + second_operand))
 
         if operator == '+':
             result = first_operand + second_operand
@@ -35,4 +31,4 @@ class Solution:
         elif operator == '/':
             result = int(first_operand / second_operand)
 
-        return result
+        return str(result)
