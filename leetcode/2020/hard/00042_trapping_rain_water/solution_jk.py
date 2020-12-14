@@ -29,3 +29,27 @@ class Solution:
                 right -= 1
 
         return ans
+
+'''
+with dynamic programming
+class Solution:
+    def trap(self, height: List[int]) -> int:
+        left_list = []
+
+        max_left = 0
+        for num in height:
+            max_left = max(max_left, num)
+            left_list.append(max_left)
+
+
+        right_list = []
+
+        max_right = 0
+        for num in height[::-1]:
+            max_right = max(max_right, num)
+            right_list.append(max_right)
+
+        right_list.reverse()
+
+        return sum([min(l, r) for l, r in zip(left_list, right_list)]) - sum(height)
+'''
