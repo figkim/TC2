@@ -4,25 +4,28 @@ class Solution:
         
         left = 0
         right = len(height) - 1
-
+        
+        max_left = 0
+        max_right = 0
+        
         ans = 0
 
         while left < right:
-            m_h = min(height[left], height[right])
 
             if height[left] < height[right]:
-                left += 1        
-
-                while left < right and m_h > height[left]:
-                    ans += max(m_h - height[left], 0)
-                    left += 1
-
+                if max_left > height[left]:
+                    ans += max_left - height[left]
+                else:
+                    max_left = height[left]
+                    
+                left += 1
+                
             else:
+                if max_right > height[right]:
+                    ans += max_right - height[right]
+                else:
+                    max_right = height[right]
+                    
                 right -= 1
-
-                while left < right and m_h > height[right]:
-                    ans += max(m_h - height[right], 0)
-                    right -= 1
-
 
         return ans
