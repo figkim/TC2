@@ -1,3 +1,4 @@
+# ref by https://dojinkimm.github.io/problem_solving/2019/10/16/boj-2580-sudoku.html
 import copy
 
 def vertical_check(i, n, board):
