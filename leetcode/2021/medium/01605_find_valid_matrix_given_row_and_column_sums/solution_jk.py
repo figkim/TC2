@@ -1,37 +1,34 @@
-import heapq
-
 class Solution:
     def restoreMatrix(self, rowSum: List[int], colSum: List[int]) -> List[List[int]]:
         '''
-        다른 사람의 코드를 참고하여 수정하여 기본 아이디어를 쓰겠습니다.
+        다른 사람의 코드를 봐서 역시 설명을 추가합니다.
         
-        기존 코드에서는 매번 rowSum과 colSum에서 0보다 큰 것 중에서 최소값을 찾느라 시간이 오래 걸렸습니다.
-        그래서 이 부분을 heap queue로 바꿔서 시간을 단축하였습니다.
+        기존에는 가장 작은 것들을 찾아서 했는데, 사실 다 필요없고, 조건만 맞추면 됩니다.
+        row와 col 중에 작은 것을 찾아서 써 넣고, 아닌 쪽에서 뺴주면 됩니다.
         
-        다른 부분은 다 동일하고, 가장 작은 숫자를 찾는데에만 heap queue 로 바꿨습니다
-        그리고 0인 부분은 추가하지 않아서 별도의 조건문이 필요 없습니다.
+        왜 이 생각을 못했찌...? 가장 작은 것들부터 찾아야 한다는 생각에 빠져서.. ㅠㅠ
+        하지만 heapq과 큰 차이가 없네..
         '''
         N, M = len(rowSum), len(colSum)
 
-        row_heap = [[num, i] for i, num in enumerate(rowSum)]
-        col_heap = [[num, j] for j, num in enumerate(colSum)]
-        
-        heapq.heapify(row_heap)
-        heapq.heapify(col_heap)
-
         answer = [[0 for _ in range(M)] for _ in range(N)]
 
-        while row_heap or col_heap:
-            row_min, i = heapq.heappop(row_heap)
-            col_min, j = heapq.heappop(col_heap)
+        i, j = 0, 0
 
-            min_num = min(row_min, col_min)
-            answer[i][j] = min_num
+        while i < N and j < M:
+            row, col = rowSum[i], colSum[j]
 
-            if row_min > min_num:        
-                heapq.heappush(row_heap, [row_min - min_num, i])
-
-            if col_min > min_num:        
-                heapq.heappush(col_heap, [col_min - min_num, j])
+            if row < col:
+                answer[i][j] = row
+                colSum[j] -= row
+                i += 1
+            elif row > col:
+                answer[i][j] = col
+                rowSum[i] -= col
+                j += 1
+            else:
+                answer[i][j] = row
+                i += 1
+                j += 1
 
         return answer
